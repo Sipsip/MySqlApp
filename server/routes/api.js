@@ -39,8 +39,8 @@ router.get('/users', (req, res) => {
 	  */
 	  connection.query('SELECT * FROM epic', function(err, rows, fields) {
 		if (err) throw err;
-		console.log('Epic: ', rows[0].Name);
-		console.log('Epic: ', rows[0].Description);
+		console.log('Express: got ', rows[0].Name + ' from mysql');
+		res.send(rows);
 	  });
 });
 

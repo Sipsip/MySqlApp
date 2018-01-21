@@ -5,18 +5,24 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { TaskComponent } from './task/task.component';
 import { DataService } from './services/data.service';
+import { PostComponent } from './post/post.component';
+import { PostService } from './services/post.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    TaskComponent
+    TaskComponent,
+    PostComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule
   ],
   providers: [
-    DataService
+    DataService,
+    PostService
   ],
   bootstrap: [AppComponent]
 })
