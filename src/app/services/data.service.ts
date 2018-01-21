@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Post } from "./../post/post";
+import { Epic } from "./../post/epic";
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
@@ -10,6 +11,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class DataService {
+  response:any;
   constructor(private url: string, private http: HttpClient) { }
 
 /*Wie im Angular.io-tutorial:
@@ -20,11 +22,14 @@ getAll (): Observable<Post[]> {
       catchError(this.handleError('getHeroes', []))
     );
 }
-  */
+  
   getAll() {
     this.http.get(this.url)
-    .subscribe(data => console.log("get User: " + data[0].Name))
-    return null;
+    .subscribe(data => this.response = data)
+    //.subscribe(data => console.log("get User: " + data[0].Name))
+
+    this.log("getAll() received " + this.response);
+    return this.response;
   }
 /*
   getAll () {
@@ -41,6 +46,13 @@ getAll (): Observable<Post[]> {
 
     return results;
   }*/
+  getAll (): Observable<Epic[]> {
+    return this.http.get<Epic[]>(this.url)
+      .pipe(
+        tap(heroes => this.log(`fetched heroes`)),
+        catchError(this.handleError('getAll', []))
+      );
+  }
 
   create(resource) {
     return this.http.post(this.url, JSON.stringify(resource))
