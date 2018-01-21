@@ -18,7 +18,18 @@ export class PostComponent implements OnInit {
     //.subscribe(posts => this.posts = posts)
     //console.log("reveived posts " + this.epics)
     //console.log("First post " + this.epics[0])
+    
   }
   
+  run() {
+    this.epics.forEach(function (e) {
+      console.log("e.id: " + e.id);
+      console.log("e.name: " + e.name);
+      console.log("e.description: " + e.description);
+    })
 
+    let epicAny : any = this.epics[0];
+    console.log("epics[0].name: " + epicAny.name);
+    console.log("epics[0].Name: " + epicAny.Name);
+  }
 }

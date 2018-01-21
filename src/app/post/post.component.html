@@ -2,6 +2,7 @@
   <li 
     *ngFor="let epic of epics"
     class="list-group-item">
-    {{ epic.Name }}
+    {{ epic.name }}
   </li>
 </ul>
+<button (click)="run()">run()</button>

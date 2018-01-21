@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Post } from "./../post/post";
@@ -8,6 +8,11 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
+import { Type } from '@angular/compiler/src/core';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable()
 export class DataService {
@@ -46,7 +51,7 @@ getAll (): Observable<Post[]> {
 
     return results;
   }*/
-  getAll (): Observable<Epic[]> {
+  getAll (): Observable<any[]> {
     return this.http.get<Epic[]>(this.url)
       .pipe(
         tap(heroes => this.log(`fetched heroes`)),
@@ -54,9 +59,14 @@ getAll (): Observable<Post[]> {
       );
   }
 
-  create(resource) {
-    return this.http.post(this.url, JSON.stringify(resource))
-      //.map(response => response.json())
+  create(epic : Epic): boolean {
+
+    this.http.post(this.url, epic, httpOptions).pipe(
+      tap((resource) => this.log(`added Object w/ id=${epic.name}`)),
+      catchError(this.handleError<Epic>('addHero'))
+    );
+
+      return true;
   }
 
   update(resource) {
