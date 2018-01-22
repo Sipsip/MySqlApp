@@ -1,3 +1,13 @@
-<p>
-  task works!
-</p>
+<ul class="list-group">
+  <li 
+    *ngFor="let task of tasks"
+    class="list-group-item">
+    {{ task.name }}
+  </li>
+</ul>
+<button (click)="run()">run()</button>
+<button (click)="getById()">getById()</button>
+<button (click)="create()">create()</button>
+<button (click)="update()">update()</button>
+<button (click)="delete()">delete()</button>
+<button (click)="byStoryId()">byStoryId()</button>

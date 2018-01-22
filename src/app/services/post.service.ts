@@ -7,8 +7,13 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
 
+//Für nicht-vererbte http-requests:
+import { catchError, map, tap } from 'rxjs/operators';
+
+
 @Injectable()
 export class PostService extends DataService {
+
   constructor(http: HttpClient) {
     super('http://localhost:3000/api/users', http);
   }
@@ -49,4 +54,6 @@ export class PostService extends DataService {
   delete(id: number): Observable<number> {
     return super.delete(id);
   }
+
+  
 }

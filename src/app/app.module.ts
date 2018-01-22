@@ -7,6 +7,7 @@ import { TaskComponent } from './task/task.component';
 import { DataService } from './services/data.service';
 import { PostComponent } from './post/post.component';
 import { PostService } from './services/post.service';
+import { TaskService } from './services/task.service';
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -22,7 +23,8 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   providers: [
     DataService,
-    PostService
+    PostService,
+    TaskService
   ],
   bootstrap: [AppComponent]
 })

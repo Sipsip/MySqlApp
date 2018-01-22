@@ -58,4 +58,6 @@ export class PostComponent implements OnInit {
     console.log("sende Delete-Befehl an server...");
     this.service.delete(2).subscribe();
   }
+
+  
 }

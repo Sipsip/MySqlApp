@@ -15,7 +15,7 @@ const httpOptions = {
 
 @Injectable()
 export class DataService {
-  constructor(private url: string, private http: HttpClient) { }
+  constructor(protected url: string, protected http: HttpClient) { }
 
   /**
    * Alle Objekte auf der DB abfragen
@@ -90,10 +90,10 @@ export class DataService {
       );
   }
 
-  private handleError<T>(operation = 'operation', result?: T) {
+  protected handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       this.log("an Error occured:");
-      console.error(error); // log to console instead
+      console.error(error);
 
       this.log(`${operation} failed: ${error.message}`);
 
@@ -102,7 +102,7 @@ export class DataService {
     };
   }
 
-  private log(message: string) {
+  protected log(message: string) {
     console.log(message);
   }
 }
