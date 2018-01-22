@@ -59,14 +59,20 @@ getAll (): Observable<Post[]> {
       );
   }
 
-  create(epic : Epic): boolean {
+  create(resource): Observable<any> {
 
-    this.http.post(this.url, epic, httpOptions).pipe(
-      tap((resource) => this.log(`added Object w/ id=${epic.name}`)),
-      catchError(this.handleError<Epic>('addHero'))
+    
+    /* poh-Methode:
+    return this.http.post<Hero>(this.heroesUrl, hero, httpOptions).pipe(
+      tap((hero: Hero) => this.log(`added hero w/ id=${hero.id}`)),
+      catchError(this.handleError<Hero>('addHero'))
     );
+*/
 
-      return true;
+    return this.http.post(this.url, resource, httpOptions).pipe(
+      tap((resource) => this.log(`added Object w/ id=${resource.toString()}`)),
+      catchError(this.handleError<Epic>('create'))
+    );
   }
 
   update(resource) {

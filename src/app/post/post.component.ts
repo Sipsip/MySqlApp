@@ -32,4 +32,10 @@ export class PostComponent implements OnInit {
     console.log("epics[0].name: " + epicAny.name);
     console.log("epics[0].Name: " + epicAny.Name);
   }
+
+  create() {
+    let e : Epic = new Epic(2,"created Epic", "Dieses Epic wurde in post.component erstellt",4);
+    this.service.create(e).subscribe();
+    console.log("create() in Component aufgerufen");
+  }
 }

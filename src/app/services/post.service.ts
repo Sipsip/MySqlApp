@@ -18,6 +18,16 @@ export class PostService extends DataService {
     return super.getAll()
     .map(epicList => epicList = epicList
       .map(epicDB => epicDB = new Epic(epicDB.EpicID, epicDB.Name, epicDB.Description, epicDB.Priority)));
+   }
 
+   create(epic): Observable<Epic> {
+
+    var transferObject : any = {};
+    //transferObject.EpicId = epic.id;
+    transferObject.Name = epic.name;
+    transferObject.Description = epic.description;
+    transferObject.Priority = epic.priority;
+    console.log(JSON.stringify(transferObject));
+    return super.create(JSON.stringify(transferObject));;
    }
 }
