@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 var mysql = require('mysql');
+const HttpStatus = require('http-status-codes');
 
 var connection = mysql.createConnection({
 	host: 'localhost',
@@ -29,7 +30,9 @@ let response = {
 	message: null
 };
 
-// Get users
+////////////////////////////////////////////////////////////////////////////////
+// GET /users
+////////////////////////////////////////////////////////////////////////////////
 router.get('/users', (req, res) => {
 	/*
 	connection.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
@@ -38,38 +41,32 @@ router.get('/users', (req, res) => {
 	  });
 	  */
 	connection.query('SELECT * FROM epic', function (err, rows, fields) {
-		if (err) throw err;
-		if (typeof rows[0] !== "undefined") {
-			console.log('Express: got ', rows[0].Name + ' from mysql');
-		} else { 
-			console.log("Express: getAll-Response empty or missing") 
-		}
-
-
+		if (err) {
+			console.error("Error occured: " + err.message)
+			res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ error: err, message: err.message });
+			//throw err;
+		} else {
 		res.send(rows);
+		}
 	});
 });
 
+////////////////////////////////////////////////////////////////////////////////
+// POST /users
+////////////////////////////////////////////////////////////////////////////////
 router.post('/users', (req, res) => {
 
 	console.log('Express: got HTTP-Post from client. ', req + ' gets created');
-	//connection.query('INSERT INTO `pm`.`epic` (`EpicID`, `Name`, `Description`, `Priority`) VALUES ('4', 'epic4', 'epic4 ist hier', '1');', function(err, rows, fields) {
-
+	
 	connection.query('INSERT INTO epic SET ?', req.body, function (err, rows, fields) {
-		if (err) throw err;
-		res.send(rows);
-	});
-
-	/*
-	config.connection.query(‘INSERT INTO client SET ?’, value1, function (err,result) {
 		if (err) {
-		console.log(“ERROR IN QUERY”);
+			console.error("Error occured: " + err.message)
+			res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ error: err, message: err.message });
+			//throw err;
 		} else {
-		console.log(“Insertion Successful.” + result);
-		console.log(‘Inserted ‘ + result.affectedRows + ‘ rows’);
-		res.end(result);
+		res.send(rows);
 		}
-		});
-		*/
+	});
 });
+
 module.exports = router;

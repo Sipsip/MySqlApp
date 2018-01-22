@@ -60,14 +60,12 @@ getAll (): Observable<Post[]> {
   }
 
   create(resource): Observable<any> {
-
-    
     /* poh-Methode:
     return this.http.post<Hero>(this.heroesUrl, hero, httpOptions).pipe(
       tap((hero: Hero) => this.log(`added hero w/ id=${hero.id}`)),
       catchError(this.handleError<Hero>('addHero'))
     );
-*/
+    */
 
     return this.http.post(this.url, resource, httpOptions).pipe(
       tap((resource) => this.log(`added Object w/ id=${resource.toString()}`)),

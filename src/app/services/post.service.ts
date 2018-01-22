@@ -23,7 +23,7 @@ export class PostService extends DataService {
    create(epic): Observable<Epic> {
 
     var transferObject : any = {};
-    //transferObject.EpicId = epic.id;
+    transferObject.EpicId = epic.id;
     transferObject.Name = epic.name;
     transferObject.Description = epic.description;
     transferObject.Priority = epic.priority;
