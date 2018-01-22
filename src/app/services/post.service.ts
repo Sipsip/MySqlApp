@@ -12,20 +12,21 @@ import 'rxjs/add/observable/throw';
 export class PostService extends DataService {
   constructor(http: HttpClient) {
     super('http://localhost:3000/api/users', http);
-   }
+  }
 
-   getAll(): Observable<Epic[]> {
+  getAll(): Observable<Epic[]> {
     return super.getAll()
-    .map(epicList => epicList = epicList
-      .map(epicDB => epicDB = new Epic(epicDB.EpicID, epicDB.Name, epicDB.Description, epicDB.Priority)));
-   }
+      .map(epicList => epicList = epicList
+        .map(epicDB => epicDB = new Epic(epicDB.EpicID, epicDB.Name, epicDB.Description, epicDB.Priority)));
+  }
 
-   getById(id: number): Observable<Epic> {
-     return super.getById(id);
-   }
+  getById(id: number): Observable<Epic> {
+    return super.getById(id)
+      .map(epicDB => epicDB = new Epic(epicDB.EpicID, epicDB.Name, epicDB.Description, epicDB.Priority));
+  }
 
-   create(epic): Observable<Epic> {
-    var transferObject : any = {};
+  create(epic): Observable<Epic> {
+    var transferObject: any = {};
     //ID wird nicht berücksichtigt, da auto-increment
     //transferObject.EpicId = epic.id;
     transferObject.Name = epic.name;
@@ -33,19 +34,19 @@ export class PostService extends DataService {
     transferObject.Priority = epic.priority;
     console.log(JSON.stringify(transferObject));
     return super.create(JSON.stringify(transferObject));;
-   }
+  }
 
-   update(epic): Observable<Epic> {
-    var transferObject : any = {};
+  update(epic): Observable<Epic> {
+    var transferObject: any = {};
     transferObject.EpicID = epic.id;
     transferObject.Name = epic.name;
     transferObject.Description = epic.description;
     transferObject.Priority = epic.priority;
     console.log(JSON.stringify(transferObject));
     return super.update(JSON.stringify(transferObject));;
-   }
+  }
 
-   delete(id: number): Observable<number> {
+  delete(id: number): Observable<number> {
     return super.delete(id);
-   }
+  }
 }

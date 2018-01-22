@@ -10,6 +10,7 @@ import { Epic } from './epic';
 })
 export class PostComponent implements OnInit {
   epics: Epic[];
+  IdEpic : Epic;
 
   constructor(private service: PostService) { }
 
@@ -19,6 +20,7 @@ export class PostComponent implements OnInit {
     //console.log("reveived posts " + this.epics)
     //console.log("First post " + this.epics[0])
     
+    this.service.getById(2).subscribe(epic => this.IdEpic = epic);
   }
   
   run() {
@@ -28,9 +30,15 @@ export class PostComponent implements OnInit {
       console.log("e.description: " + e.description);
     })
 
-    let epicAny : any = this.epics[0];
-    console.log("epics[0].name: " + epicAny.name);
-    console.log("epics[0].Name: " + epicAny.Name);
+    let epic : Epic = this.epics[0];
+    console.log("epics[0].name: " + epic.name);
+
+    console.log("getById(2): ")
+    console.log("IdEpic.name: " + this.IdEpic.name + this.IdEpic.description);
+  }
+
+  getById() {
+    console.log("sende GetById-Befehl an server...");
   }
 
   create() {

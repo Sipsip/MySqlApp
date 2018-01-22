@@ -34,6 +34,9 @@ let response = {
 // GET /users
 ////////////////////////////////////////////////////////////////////////////////
 router.get('/users', (req, res) => {
+
+	
+	console.log('Express: got HTTP-Get from client. All Objects requested');
 	/*
 	connection.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
 		if (err) throw err;
@@ -47,6 +50,25 @@ router.get('/users', (req, res) => {
 			//throw err;
 		} else {
 		res.send(rows);
+		}
+	});
+});
+
+////////////////////////////////////////////////////////////////////////////////
+// GET /users/:id
+////////////////////////////////////////////////////////////////////////////////
+router.get('/users/:id', (req, res) => {
+
+	console.log('Express: got HTTP-Get from client. Object with id = ', req.params.id + ' requested');
+	
+	connection.query('SELECT * FROM epic WHERE EpicID = ?', req.params.id, function (err, rows, fields) {
+		if (err) {
+			console.error("Error occured on Express-Server: " + err.message)
+			res.status(HttpStatus.INTERNAL_SERVER_ERROR)
+				.send({ error: err, message: err.message });
+			//throw err;
+		} else {
+		res.send(rows[0]);
 		}
 	});
 });
