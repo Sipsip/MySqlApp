@@ -34,15 +34,9 @@ let response = {
 // GET /users
 ////////////////////////////////////////////////////////////////////////////////
 router.get('/users', (req, res) => {
-
 	
 	console.log('Express: got HTTP-Get from client. All Objects requested');
-	/*
-	connection.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
-		if (err) throw err;
-		console.log('The solution is: ', rows[0].solution);
-	  });
-	  */
+
 	connection.query('SELECT * FROM epic', function (err, rows, fields) {
 		if (err) {
 			console.error("Error occured on Express-Server: " + err.message)
@@ -68,7 +62,7 @@ router.get('/users/:id', (req, res) => {
 				.send({ error: err, message: err.message });
 			//throw err;
 		} else {
-		res.send(rows[0]);
+		res.send(rows);
 		}
 	});
 });
@@ -78,7 +72,7 @@ router.get('/users/:id', (req, res) => {
 ////////////////////////////////////////////////////////////////////////////////
 router.post('/users', (req, res) => {
 
-	console.log('Express: got HTTP-Post from client. ', req + ' gets created');
+	console.log('Express: got HTTP-Post from client. ', req.body + ' gets created');
 	
 	connection.query('INSERT INTO epic SET ?', req.body, function (err, rows, fields) {
 		if (err) {

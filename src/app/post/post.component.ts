@@ -20,7 +20,6 @@ export class PostComponent implements OnInit {
     //console.log("reveived posts " + this.epics)
     //console.log("First post " + this.epics[0])
     
-    this.service.getById(2).subscribe(epic => this.IdEpic = epic);
   }
   
   run() {
@@ -34,11 +33,12 @@ export class PostComponent implements OnInit {
     console.log("epics[0].name: " + epic.name);
 
     console.log("getById(2): ")
-    console.log("IdEpic.name: " + this.IdEpic.name + this.IdEpic.description);
+    console.log("IdEpic.name: " + this.IdEpic.id + " description: " + this.IdEpic.description);
   }
 
   getById() {
     console.log("sende GetById-Befehl an server...");
+    this.service.getById(2).subscribe(epic => this.IdEpic = epic);
   }
 
   create() {

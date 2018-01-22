@@ -1,5 +1,4 @@
 import { DataService } from './data.service';
-import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Epic } from "./../post/epic";
@@ -22,7 +21,8 @@ export class PostService extends DataService {
 
   getById(id: number): Observable<Epic> {
     return super.getById(id)
-      .map(epicDB => epicDB = new Epic(epicDB.EpicID, epicDB.Name, epicDB.Description, epicDB.Priority));
+      .map(epicDB => epicDB = new Epic(epicDB.EpicID, epicDB.Name, epicDB.Description, epicDB.Priority))
+        //.catch(e => { console.log(e); return undefined; })
   }
 
   create(epic): Observable<Epic> {
