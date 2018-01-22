@@ -38,4 +38,16 @@ export class PostComponent implements OnInit {
     this.service.create(e).subscribe();
     console.log("create() in Component aufgerufen");
   }
+
+  update() {
+    let rand : number = Math.floor(Math.random()*(100-1+1)+1);
+    console.log("set priority for epic 2 as " + rand);
+    let e : Epic = new Epic(2,"created Epic", "Dieses Epic wurde in post.component erstellt",rand);
+    this.service.update(e).subscribe();
+  }
+
+  delete() {
+    console.log("sende Delete-Befehl an server...");
+    this.service.delete(2).subscribe();
+  }
 }

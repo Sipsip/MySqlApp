@@ -20,14 +20,32 @@ export class PostService extends DataService {
       .map(epicDB => epicDB = new Epic(epicDB.EpicID, epicDB.Name, epicDB.Description, epicDB.Priority)));
    }
 
-   create(epic): Observable<Epic> {
+   getById(id: number): Observable<Epic> {
+     return super.getById(id);
+   }
 
+   create(epic): Observable<Epic> {
     var transferObject : any = {};
-    transferObject.EpicId = epic.id;
+    //ID wird nicht berücksichtigt, da auto-increment
+    //transferObject.EpicId = epic.id;
     transferObject.Name = epic.name;
     transferObject.Description = epic.description;
     transferObject.Priority = epic.priority;
     console.log(JSON.stringify(transferObject));
     return super.create(JSON.stringify(transferObject));;
+   }
+
+   update(epic): Observable<Epic> {
+    var transferObject : any = {};
+    transferObject.EpicID = epic.id;
+    transferObject.Name = epic.name;
+    transferObject.Description = epic.description;
+    transferObject.Priority = epic.priority;
+    console.log(JSON.stringify(transferObject));
+    return super.update(JSON.stringify(transferObject));;
+   }
+
+   delete(id: number): Observable<number> {
+    return super.delete(id);
    }
 }

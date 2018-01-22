@@ -42,7 +42,7 @@ router.get('/users', (req, res) => {
 	  */
 	connection.query('SELECT * FROM epic', function (err, rows, fields) {
 		if (err) {
-			console.error("Error occured: " + err.message)
+			console.error("Error occured on Express-Server: " + err.message)
 			res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ error: err, message: err.message });
 			//throw err;
 		} else {
@@ -60,7 +60,7 @@ router.post('/users', (req, res) => {
 	
 	connection.query('INSERT INTO epic SET ?', req.body, function (err, rows, fields) {
 		if (err) {
-			console.error("Error occured: " + err.message)
+			console.error("Error occured on Express-Server: " + err.message)
 			res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ error: err, message: err.message });
 			//throw err;
 		} else {
@@ -69,4 +69,39 @@ router.post('/users', (req, res) => {
 	});
 });
 
+////////////////////////////////////////////////////////////////////////////////
+// PUT /users
+////////////////////////////////////////////////////////////////////////////////
+router.put('/users', (req, res) => {
+
+	console.log('Express: got HTTP-Put from client. ', req + ' gets updated');
+	
+	connection.query('REPLACE INTO epic SET ?', req.body, function (err, rows, fields) {
+		if (err) {
+			console.error("Error occured on Express-Server: " + err.message)
+			res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ error: err, message: err.message });
+			//throw err;
+		} else {
+		res.send(rows);
+		}
+	});
+});
+
+////////////////////////////////////////////////////////////////////////////////
+// DELETE /users/:id
+////////////////////////////////////////////////////////////////////////////////
+router.delete('/users/:id', (req, res) => {
+
+	console.log('Express: got HTTP-Delete from client. Object with id=', req.params.id + ' gets deleted');
+	
+	connection.query('DELETE FROM epic WHERE EpicID = ?', req.params.id, function (err, rows, fields) {
+		if (err) {
+			console.error("Error occured on Express-Server: " + err.message)
+			res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ error: err, message: err.message });
+			//throw err;
+		} else {
+		res.send(rows);
+		}
+	});
+});
 module.exports = router;

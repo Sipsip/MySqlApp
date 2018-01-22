@@ -16,75 +16,62 @@ const httpOptions = {
 
 @Injectable()
 export class DataService {
-  response:any;
+  response: any;
   constructor(private url: string, private http: HttpClient) { }
 
-/*Wie im Angular.io-tutorial:
-getAll (): Observable<Post[]> {
-  return this.http.get<Post[]>(this.url)
-    .pipe(
-      tap(heroes => this.log(`fetched heroes`)),
-      catchError(this.handleError('getHeroes', []))
-    );
-}
-  
-  getAll() {
-    this.http.get(this.url)
-    .subscribe(data => this.response = data)
-    //.subscribe(data => console.log("get User: " + data[0].Name))
-
-    this.log("getAll() received " + this.response);
-    return this.response;
-  }
-/*
-  getAll () {
-    this.log("getAll() called");
-    let results : any[];
-    
-    results = this.http.get(this.url).subscribe(data => {
-      this.log("in http-method");
-    });
-    
-
-    //this.log("getAll() response: "+ Object.keys(results).length);
-    
-
-    return results;
-  }*/
-  getAll (): Observable<any[]> {
+  getAll(): Observable<any[]> {
     return this.http.get<Epic[]>(this.url)
       .pipe(
-        tap(heroes => this.log(`fetched heroes`)),
-        catchError(this.handleError('getAll', []))
+      tap(heroes => this.log(`fetched heroes`)),
+      catchError(this.handleError('getAll', []))
+      );
+  }
+
+  getById(id: number): Observable<any> {
+
+/*
+const url = `${this.heroesUrl}/${id}`;
+    return this.http.get<Hero>(url).pipe(
+      tap(_ => this.log(`fetched hero id=${id}`)),
+      catchError(this.handleError<Hero>(`getHero id=${id}`))
+    );
+    */
+
+    const url = `${this.url}/${id}`;
+    return this.http.get<any>(url)
+      .pipe(
+      tap(_ => this.log(`got Object id=${id}`)),
+      catchError(this.handleError<Object>('getById'))
       );
   }
 
   create(resource): Observable<any> {
-    /* poh-Methode:
-    return this.http.post<Hero>(this.heroesUrl, hero, httpOptions).pipe(
-      tap((hero: Hero) => this.log(`added hero w/ id=${hero.id}`)),
-      catchError(this.handleError<Hero>('addHero'))
-    );
-    */
-
-    return this.http.post(this.url, resource, httpOptions).pipe(
+    return this.http.post(this.url, resource, httpOptions)
+      .pipe(
       tap((resource) => this.log(`added Object w/ id=${resource.toString()}`)),
-      catchError(this.handleError<Epic>('create'))
-    );
+      catchError(this.handleError<Object>('create'))
+      );
   }
 
-  update(resource) {
-    return this.http.patch(this.url + '/' + resource.id, JSON.stringify({ isRead: true }))
-      //.map(response => response.json())
+  update(resource): Observable<any> {
+    return this.http.put(this.url, resource, httpOptions)
+      .pipe(
+      tap((resource) => this.log(`updated Object w/ id=${resource.toString()}`)),
+      catchError(this.handleError<Object>('update'))
+      );
   }
 
-  delete(id) {
-    return this.http.delete(this.url + '/' + id)
-      //.map(response => response.json())
+  delete(id: number): Observable<any> {
+    const url = `${this.url}/${id}`;
+    return this.http.delete<any>(url, httpOptions)
+      .pipe(
+      tap(_ => this.log(`deleted Object id=${id}`)),
+      catchError(this.handleError<Object>('delete'))
+      );
   }
 
 
-  private handleError<T> (operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       this.log("an Error occured:");
       // TODO: send the error to remote logging infrastructure
